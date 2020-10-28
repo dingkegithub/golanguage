@@ -1,0 +1,4 @@
+package factory
+
+func main() {
+}
