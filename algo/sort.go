@@ -1,5 +1,7 @@
 package algo
 
+import "github.com/gogo/protobuf/plugin/compare"
+
 type SortType int
 
 const (
@@ -29,13 +31,13 @@ func (st SortType) String() string  {
 type CompareFunc func(interface{}, interface{}) int
 
 type Sort interface {
-	Sort([]interface, int)
+	Sort([]interface{}, int)
 }
 
 type InsertSort struct {
 }
 
-func (is *InsertSort) Sort(arr []int) {
+func (is *InsertSort) Sort(pokers []int) {
 
 	size := len(pokers)
 
@@ -232,3 +234,4 @@ func Printf(arr []int) {
 	}
 	println()
 }
+

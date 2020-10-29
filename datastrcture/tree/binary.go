@@ -201,3 +201,120 @@ func (b *Binary) LevelTraverse(res *[]interface{}) {
 		node, err = q.Get()
 	}
 }
+
+func (b *Binary) IsFullTree() bool {
+	return b.isFullTree(b.root)
+}
+
+// 满树判断
+// 条件：每个节点要么有两个子节点，要么没有子节点
+func (b *Binary) isFullTree(n *Node) bool {
+	if n == nil {
+		return true
+	}
+
+	if n.Left == nil && n.Right == nil {
+		return true
+	}
+
+	if n.Left != nil && n.Right != nil {
+		return b.isFullTree(n.Left) && b.isFullTree(n.Right)
+	}
+
+	return false
+}
+
+func (b *Binary) IsPerfectTree() bool {
+	return b.isPerfectTree(b.root, 0, b.Depth())
+}
+
+// 完美二叉树
+// 每个节点含有两个子节点，且所以子节点在同一层上
+func (b *Binary) isPerfectTree(n *Node, level, depth int) bool {
+	if n == nil {
+		return true
+	}
+
+	if n.Left == nil && n.Right == nil {
+		return depth == level+1
+	}
+
+	if n.Left == nil || n.Right == nil {
+		return false
+	}
+
+	return b.isPerfectTree(n.Left, level+1, depth) && b.isPerfectTree(n.Right, level+1, depth)
+}
+
+func (b *Binary) Depth() int {
+	return b.depth(b.root)
+}
+
+func (b *Binary) depth(n *Node) int {
+	if n == nil {
+		return 0
+	}
+
+	lD := b.depth(n.Left)
+	rD := b.depth(n.Right)
+
+	if lD > rD {
+		return lD + 1
+	} else {
+		return rD + 1
+	}
+}
+
+func (b *Binary) NodeCount() int {
+	return b.nodeCount(b.root)
+}
+
+func (b *Binary) nodeCount(n *Node) int {
+	if n == nil {
+		return 0
+	}
+
+	return 1 + b.nodeCount(n.Left) + b.nodeCount(n.Right)
+}
+
+func (b *Binary) IsCompleteTree() bool {
+	return b.isCompleteTree(b.root, 0, b.NodeCount())
+}
+
+func (b *Binary) isCompleteTree(n *Node, idx, numbers int) bool {
+	if n == nil {
+		return true
+	}
+
+	if idx > numbers {
+		return false
+	}
+
+	return b.isCompleteTree(n.Left, 2*idx+1, numbers) && b.isCompleteTree(n.Right, 2*idx+2, numbers)
+}
+
+func (b *Binary) isBalanceTree(node *Node, height *int) bool {
+	var lH, rH int
+	var l, r bool
+
+	if node == nil {
+		*height = 0
+		return true
+	}
+
+	l = b.isBalanceTree(node.Left, &lH)
+	r = b.isBalanceTree(node.Right, &rH)
+
+	if lH > rH {
+		*height = lH + 1
+	} else {
+		*height = rH + 1
+	}
+
+	if lH-rH >= 2 || rH-lH >= 2 {
+		return false
+	} else {
+		return l && r
+	}
+
+}
