@@ -6,17 +6,19 @@ import (
 )
 
 func TestAdapter(t *testing.T) {
+	// 假设外设信号里包含大秦帝国这部影片的数据
 	msg := "BT-Seed 大秦帝国 裂变"
+	usbSignal := &UsbSignal{}
+	usbSignal.Input(msg)
 
-	signal := &Usb30Source{}
-	signal.Input(msg)
+	// macpro 从 USB 直接不能读取信号播放
+	// 因此先将usb 插入到绿联usb-typec 信号
+	// 转换器上
+	adapter := NewUgreeUsbAdapter(usbSignal)
 
-	macpro := &MacPro{}
-	macpro.Display(signal)
+	// 转换器插入到电脑
+	myMacPro := NewMacPro(adapter)
 
-	signal.Input(msg)
-	signalAdapter := &UgreenAdapter{
-		source: signal,
-	}
-	macpro.Display(signalAdapter)
+	// 影片播放
+	myMacPro.Display()
 }

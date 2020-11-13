@@ -6,10 +6,18 @@ import (
 )
 
 type MacPro struct {
+	externalDev MacPro2019
 }
 
-func (mp *MacPro) Display(s SourceInterface) {
-	msg := s.Output()
+func NewMacPro(dev MacPro2019) *MacPro {
+	return &MacPro{
+		externalDev: dev,
+	}
+}
+
+func (mp *MacPro) Display() {
+	msg := mp.externalDev.ReadSignal()
+
 	if strings.Contains(msg, "typec:") {
 		fmt.Println("MacPro-UHD: ", msg)
 	} else {

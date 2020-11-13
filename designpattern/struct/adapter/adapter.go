@@ -6,14 +6,28 @@ import (
 	"strings"
 )
 
-type UgreenAdapter struct {
-	source SourceInterface
+type UgreenUsbAdapter struct {
+	dev *UsbSignal
 }
 
-func (u *UgreenAdapter) Output() string {
-	return u.CvtSignal(u.source.Output())
+func NewUgreeUsbAdapter(dev *UsbSignal) MacPro2019 {
+	return &UgreenUsbAdapter{
+		dev: dev,
+	}
 }
 
-func (u *UgreenAdapter) CvtSignal(msg string) string {
-	return fmt.Sprintf("typec:%s", strings.Split(msg, ":")[1])
+func (u *UgreenUsbAdapter) ReadSignal() string {
+	s := u.dev.Output()
+	tp, signal := u.cvtSignal(s)
+	fmt.Printf("signal cvt from %s to typec\n", tp)
+
+	return signal
+}
+
+func (u *UgreenUsbAdapter) cvtSignal(s string) (string, string) {
+	tp := strings.Split(s, ":")
+	out := strings.Builder{}
+	out.WriteString("typec:")
+	out.WriteString(tp[1])
+	return tp[0], out.String()
 }

@@ -6,7 +6,8 @@ func TestInsertSort(t *testing.T) {
 	src := []int{5, 8, 2, 9, 6}
 	dst := []int{2, 5, 6, 8, 9}
 
-	InsertSort(src)
+	var is InsertSort
+	is.Sort(src)
 
 	Printf(src)
 

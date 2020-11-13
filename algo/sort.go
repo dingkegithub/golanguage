@@ -1,7 +1,5 @@
 package algo
 
-import "github.com/gogo/protobuf/plugin/compare"
-
 type SortType int
 
 const (
@@ -12,7 +10,7 @@ const (
 	SortTypeQuick
 )
 
-func (st SortType) String() string  {
+func (st SortType) String() string {
 	switch st {
 	case SortTypeInsert:
 		return "InsertSort"
@@ -26,6 +24,7 @@ func (st SortType) String() string  {
 		return "QuickSort"
 	default:
 		return ""
+	}
 }
 
 type CompareFunc func(interface{}, interface{}) int
@@ -234,4 +233,3 @@ func Printf(arr []int) {
 	}
 	println()
 }
-
