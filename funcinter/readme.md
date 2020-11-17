@@ -33,7 +33,7 @@
 
 - 一个包内的init 将顺序调用
 
-- 在main函数之前执行的所有代码都在同样一个 goroutine, 称为zhugoroutine
+- 在main函数之前执行的所有代码都在同样一个 goroutine, 称为主goroutine
 
 - 其它 goroutine 只有进入 main 之后才可能被执行
 
